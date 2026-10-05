@@ -1,139 +1,143 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Security Sandbox Vertical – Design</title>
+<title>Security Sandbox – IoT Sandbox</title>
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;--bg:#fff;--card:#fff;--tx:#14213d;--mut:#5b6b85;--ac:#0b6bcb;--ln:#dbe3ee;--ok:#1a8f5a;--wip:#d98a0b;--no:#d6455d}
-html{scroll-padding-top:60px}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{background:#fff;color:var(--tx);padding:28px 20px;border-bottom:4px solid var(--ac)}
-header h1{margin:0 0 6px;font-size:1.6rem}header p{margin:0;color:var(--mut);max-width:760px}
-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--ln);display:flex;gap:4px;overflow-x:auto;padding:8px 12px}
-nav a{white-space:nowrap;color:var(--ac);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:.85rem}
-nav a:hover{background:#eef3fa}
-main{max-width:1050px;margin:auto;padding:16px}
-section{margin:26px 0}
-h2{font-size:1.25rem;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 14px;font-size:.9rem}
-.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-.card{background:#fff;box-shadow:0 1px 3px rgba(20,33,61,.06);border:1px solid var(--ln);border-radius:12px;padding:14px}
-.card h3{margin:0 0 6px;font-size:1rem}.card ul{margin:0;padding-left:18px;color:var(--mut);font-size:.88rem}
-.tag{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:99px;border:1px solid var(--ln);color:var(--mut);margin:2px 2px 0 0}
-.flow{display:flex;flex-direction:column;gap:0}
-.step{display:flex;gap:12px;align-items:flex-start;position:relative;padding-bottom:14px}
-.step:not(:last-child)::before{content:"";position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--ln)}
-.n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
-.step .b{background:var(--card);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;flex:1}
-.step b{display:block}.step span{color:var(--mut);font-size:.87rem}
-.two{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-.lane{font-weight:700;color:var(--ac);margin-bottom:8px}
-.dev{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
-.box{border-radius:10px;padding:12px 14px;text-align:center;font-weight:600;font-size:.88rem;border:2px solid var(--ac);background:var(--card)}
-.core{background:#0b6bcb;color:#fff}.tgt{border-color:#d6455d}
-.ifs{display:flex;flex-direction:column;gap:4px}
-.i{font-size:.75rem;padding:3px 10px;border-radius:6px;color:#fff;text-align:center}
-.ok{background:var(--ok)}.wip{background:var(--wip)}.no{background:var(--no)}
-.arr{font-size:1.3rem;color:var(--mut)}
-.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:560px;background:var(--card);border:1px solid var(--ln);border-radius:10px}
-th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--ln);font-size:.87rem;vertical-align:top}
-th{background:#f1f5fa;color:var(--mut)}
-.st{display:inline-block;padding:2px 9px;border-radius:99px;color:#fff;font-size:.75rem;white-space:nowrap}
-.pipe{display:flex;gap:6px;flex-wrap:wrap}.pipe .st{background:var(--ac)}
-footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light;--navy:#0a1a3a;--navy2:#0f2552;--bl:#2f6bff;--gr:#10a56b;--or:#f59e0b;--rd:#e5484d;--tx:#0f1b33;--mut:#5d6b85;--ln:#e3e9f3;--soft:#f6f8fc;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+html{scroll-behavior:smooth}*{box-sizing:border-box}
+body{margin:0;background:#fff;color:var(--tx);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:1100px;margin:auto;padding:0 20px}
+.gov{background:var(--navy);color:#cdd8ee;font-size:.72rem;padding:6px 0}.gov .w{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.nav{background:#fff;border-bottom:1px solid var(--ln)}.nav .w{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700}.logo i{width:30px;height:30px;border-radius:50%;background:var(--bl);display:grid;place-items:center;color:#fff;font-style:normal}
+.nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0;font-size:.85rem}.nav a{color:var(--tx);text-decoration:none}
+.btn{display:inline-block;border-radius:8px;padding:9px 16px;font-weight:600;font-size:.85rem;text-decoration:none;border:1px solid var(--ln);background:#fff;color:var(--tx)}
+.btn.p{background:var(--bl);border-color:var(--bl);color:#fff}.btn.o{background:var(--or);border-color:var(--or);color:#1b1200}
+.hero{background:radial-gradient(1000px 380px at 15% 0,#163573 0,var(--navy) 60%);color:#fff;padding:40px 0 34px}
+.hero .w{display:grid;gap:28px;grid-template-columns:1.3fr 1fr;align-items:center}
+.crumb{font:.7rem var(--mono);color:#8fb2ff;letter-spacing:.08em}
+.pill{display:inline-block;font:.68rem var(--mono);letter-spacing:.1em;text-transform:uppercase;border:1px solid #2f8f6c;color:#5ee0aa;border-radius:99px;padding:5px 12px;background:rgba(16,165,107,.12)}
+h1{font-size:clamp(1.9rem,4.6vw,2.9rem);line-height:1.1;margin:14px 0}h1 em{color:#4fd8a0;font-style:normal}
+.hero p{color:#b9c7e3;max-width:540px;margin:0}
+.sum{border:1px solid #284579;border-radius:16px;padding:18px;background:rgba(10,26,58,.7);font:.78rem var(--mono)}
+.sum .r{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #1d3562}.sum .r:last-child{border:0}.sum .r span{color:#7f93ba}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:#fff;border-bottom:1px solid var(--ln)}
+.tabs .w{display:flex;gap:4px;overflow-x:auto;padding-top:8px}
+.tabs button{flex:none;border:0;background:none;font:600 .85rem inherit;font-family:inherit;color:var(--mut);padding:10px 14px;border-bottom:3px solid transparent;cursor:pointer}
+.tabs button.on{color:var(--gr);border-color:var(--gr)}
+.pane{display:none;padding:38px 0 50px}.pane.on{display:block}
+.tag{font:.68rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gr);background:#e7f7f0;border:1px solid #bfe9d6;border-radius:99px;padding:4px 12px;display:inline-block}
+h2{font-size:clamp(1.4rem,3.2vw,2rem);line-height:1.15;margin:12px 0 8px}h2 em{color:var(--gr);font-style:normal}
+.lead{color:var(--mut);max-width:620px;margin:0 0 24px}
+.g{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:20px;box-shadow:0 6px 20px rgba(15,27,51,.06)}
+.card h3{margin:10px 0 6px;font-size:1.02rem}.card p,.card li{color:var(--mut);font-size:.88rem;margin:0}
+.ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#e7f7f0;font-size:1.1rem}
+.top{border-top:4px solid var(--c,var(--gr))}
+.card ul{margin:10px 0 0;padding:0;list-style:none;display:grid;gap:6px}.card li:before{content:"✔";color:var(--c,var(--gr));margin-right:8px;font-size:.8rem}
+.lab{font:.66rem var(--mono);letter-spacing:.1em;color:var(--c,var(--gr));margin-top:14px}
+.stat{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:22px}
+.stat div{background:var(--soft);border:1px solid var(--ln);border-radius:12px;padding:14px}.stat b{display:block;font-size:1.7rem;color:var(--bl)}.stat span{font:.68rem var(--mono);color:var(--mut);letter-spacing:.08em}
+.tw{overflow-x:auto;border:1px solid var(--ln);border-radius:14px}
+table{border-collapse:collapse;width:100%;min-width:620px}th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--ln);font-size:.86rem;vertical-align:top}
+th{background:var(--soft);font:.68rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}tr:last-child td{border:0}
+.st{font:.7rem var(--mono);padding:3px 10px;border-radius:99px;color:#fff;white-space:nowrap}.ok{background:var(--gr)}.wip{background:var(--or);color:#1b1200}.no{background:var(--rd)}
+.dev{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.bx{border:2px solid var(--bl);border-radius:10px;padding:10px 12px;font-weight:600;font-size:.8rem;text-align:center}.bx.c{background:var(--bl);color:#fff}.bx.t{border-color:var(--rd);background:#fff1f2}
+.ifs{display:flex;flex-direction:column;gap:3px}.ifs i{font:normal .68rem var(--mono);color:#fff;padding:2px 10px;border-radius:5px;text-align:center}
+.two{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));margin-top:22px}
+.chk{display:grid;gap:10px}.chk div{display:flex;gap:12px;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:14px}
+.chk b{flex:none;width:28px;height:28px;border-radius:8px;background:#e7f7f0;color:var(--gr);display:grid;place-items:center;font-size:.8rem}.chk span{display:block;color:var(--mut);font-size:.86rem}
+.pipe{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.pipe span{font:.72rem var(--mono);border:1px solid var(--ln);border-radius:99px;padding:5px 12px;color:var(--mut);background:var(--soft)}
+.note{background:#fff8e6;border:1px solid #f6dd9b;border-radius:12px;padding:12px 16px;font-size:.86rem;margin-top:18px;color:#6b4e00}
+details{border-bottom:1px solid var(--ln);padding:15px 4px}summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}summary:after{content:"⌄";color:var(--gr)}details[open] summary:after{content:"⌃"}
+details p{color:var(--mut);margin:10px 0 0;font-size:.9rem}
+.cta{background:var(--navy);color:#fff;padding:28px 0}.cta .w{display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap}.cta h3{margin:0 0 4px}.cta p{margin:0;color:#9fb0d2}
+footer{background:var(--navy);border-top:1px solid #1d3562;color:#9fb0d2;font-size:.82rem;padding:18px 0}
+@media(max-width:820px){.hero .w{grid-template-columns:1fr}.nav ul{display:none}}
 </style></head><body>
-<header><h1>Security Sandbox Vertical</h1>
-<p>One of the four verticals in the IoT Security Ecosystem &amp; Sandbox WebPortal (C-DAC Bengaluru). Testing and tool execution by C-DAC Hyderabad with IIT Madras, SETS Chennai, Amrita Kollam and IIT Bombay.</p></header>
-<nav><a href="#ov">Overview</a><a href="#dom">Domains &amp; Standards</a><a href="#cf">Client Flow</a><a href="#bf">Backend Flow</a><a href="#tools">Tools &amp; Status</a><a href="#dev">Analysis Devices</a><a href="#roles">Roles</a><a href="#open">Open Points</a></nav>
-<main>
+<div class="gov"><div class="w"><span>An initiative under the Ministry of Electronics &amp; IT, Govt. of India</span><span>Home · Skip to main content</span></div></div>
+<div class="nav"><div class="w"><div class="logo"><i>⬡</i>IoT Sandbox</div><ul><li><a href="#">Home</a></li><li><a href="#">Verticals</a></li><li><a href="#">Contact Us</a></li></ul><div><a class="btn" href="#">Log in</a> <a class="btn p" href="#">Register</a></div></div></div>
 
-<section id="ov"><h2>1. Overview</h2><p class="sub">Sandbox = testing tools + testing know-how + process workflow and automation, behind one single sign-on portal.</p>
-<div class="grid">
-<div class="card"><h3>Essential security testing tools</h3><ul><li>Built indigenously or customised from open source</li><li>Hardware, firmware, communication, side-channel &amp; crypto</li></ul></div>
-<div class="card"><h3>Testing know-how</h3><ul><li>Procedures with unique IDs and case studies</li><li>Level playing field across all labs</li><li>Standard-agnostic procedures</li></ul></div>
-<div class="card"><h3>Process workflow &amp; automation</h3><ul><li>Choose functional, security, or both</li><li>Questionnaire → job sheet → procedures</li><li>Automated jobs via VMs / exposed API</li></ul></div>
-<div class="card"><h3>Benefit to industry</h3><ul><li>Pre-compliance before costly certification</li><li>Frugal, indigenous tooling</li><li>Pick and choose tests; one-stop point</li></ul></div>
-</div></section>
+<section class="hero"><div class="w"><div>
+<div class="crumb">VERTICALS / SECURITY SANDBOX</div>
+<h1 style="margin-top:10px">Security <em>Sandbox</em></h1>
+<span class="pill">● Bay 02 · Online</span>
+<p style="margin-top:14px">Assess the security posture of your IoT device before it reaches the field. Hardware, firmware, communication and cryptographic analysis using standards-based procedures and indigenous tools.</p></div>
+<div class="sum"><div class="r"><span>TEST AREAS</span>Hardware · Firmware · Comm · Crypto</div><div class="r"><span>DEVICE TYPES</span>Consumer · Auto · ICS · Medical</div><div class="r"><span>STANDARDS</span>ETSI · NIST · OWASP · IEC · ISO/SAE</div><div class="r"><span>TESTING MODE</span>Automated + Manual</div><div class="r"><span>ASSURANCE</span>Pre-compliance check</div></div></div></section>
 
-<section id="dom"><h2>2. Application Domains &amp; Standards</h2><p class="sub">The client picks a domain, then a standard; applicable procedures follow from device capabilities.</p>
-<div class="grid">
-<div class="card"><h3>Consumer IoT</h3><span class="tag">Smart appliances</span><span class="tag">Gadgets</span><span class="tag">Utilities</span><ul><li>ETSI EN 303 645, NISTIR 8425, OWASP ISVS, STQC essential requirements (future BIS)</li></ul></div>
-<div class="card"><h3>Automotive Electronics</h3><span class="tag">ECU</span><span class="tag">TCU</span><span class="tag">V2V/V2X</span><ul><li>AIS 189/190, ISO/SAE 21434 (TARA)</li><li>CAN, LIN, FlexRay, Auto-Ethernet, UDS, OBD2, XCP</li></ul></div>
-<div class="card"><h3>Industrial Control Systems</h3><span class="tag">PLC</span><span class="tag">SCADA</span><span class="tag">HMI</span><span class="tag">RTU/IED</span><ul><li>IEC 62443 incl. 4-2 (component level)</li><li>Profinet, Modbus, OPC UA, DLMS, EtherCAT</li></ul></div>
-<div class="card"><h3>Medical Devices</h3><span class="tag">Consumer medical</span><span class="tag">Hospital grade</span><ul><li>IEC 60601-4-5</li><li>HL7, DICOM, FHIR</li></ul></div>
-</div></section>
+<div class="tabs"><div class="w" id="tb">
+<button class="on" data-t="ov">Overview</button><button data-t="ar">Test Areas</button><button data-t="dm">Domains &amp; Standards</button><button data-t="tl">Tools</button><button data-t="pr">What to Prepare</button><button data-t="rp">Report &amp; Status</button><button data-t="fq">FAQs</button></div></div>
 
-<section id="cf"><h2>3. Client-side Flow (WebPortal, Bangalore)</h2><p class="sub">What the manufacturer / user agency does in the portal.</p>
-<div class="flow">
-<div class="step"><div class="n">1</div><div class="b"><b>Login &amp; select vertical</b><span>Single sign-on → Security Sandbox (functional, security, or both).</span></div></div>
-<div class="step"><div class="n">2</div><div class="b"><b>Register device</b><span>Device class, domain, standard to comply with, device capabilities (interfaces, protocols, OS type).</span></div></div>
-<div class="step"><div class="n">3</div><div class="b"><b>Questionnaire</b><span>Per standard and domain; answers decide the applicable security requirements.</span></div></div>
-<div class="step"><div class="n">4</div><div class="b"><b>Job sheet generated</b><span>Questionnaire maps to the list of procedures (by procedure ID) to be run.</span></div></div>
-<div class="step"><div class="n">5</div><div class="b"><b>Submit artifacts &amp; device</b><span>Soft artifacts (firmware, docs, PCAPs) uploaded; physical device couriered for hardware tests.</span></div></div>
-<div class="step"><div class="n">6</div><div class="b"><b>Submit request</b><span>Request goes to C-DAC Hyderabad (API); status becomes “Submitted”.</span></div></div>
-<div class="step"><div class="n">7</div><div class="b"><b>Track status &amp; clarifications</b><span>Live status, clarification requests, additional artifact asks.</span></div></div>
-<div class="step"><div class="n">8</div><div class="b"><b>Download report</b><span>Findings, evidence, recommendations; pre-compliance outcome before formal certification.</span></div></div>
-</div></section>
+<div class="w">
+<div class="pane on" id="ov"><span class="tag">● Overview</span><h2>What the <em>Security Sandbox</em> does</h2>
+<p class="lead">A controlled environment where your device is analysed for vulnerabilities, using standard test procedures and a common set of tools, so every result is consistent and comparable.</p>
+<div class="stat"><div><b>4</b><span>TEST AREAS</span></div><div><b>4</b><span>DEVICE DOMAINS</span></div><div><b>5</b><span>PARTNER INSTITUTES</span></div><div><b>1</b><span>CONSOLIDATED REPORT</span></div></div>
+<div class="g">
+<div class="card top"><div class="ic">🧪</div><h3>Pre-compliance check</h3><p>Know where you stand before costly formal certification.</p></div>
+<div class="card top"><div class="ic">📏</div><h3>Standards-based</h3><p>Procedures follow ETSI, NIST, OWASP, IEC, ISO/SAE and Indian standards.</p></div>
+<div class="card top"><div class="ic">⚖️</div><h3>Level playing field</h3><p>Same procedures and tools for every manufacturer and lab.</p></div>
+<div class="card top"><div class="ic">💰</div><h3>Frugal &amp; focused</h3><p>Indigenous tools keep cost low; choose only the tests you need.</p></div></div></div>
 
-<section id="bf"><h2>4. Backend / C-DAC Hyderabad Flow</h2><p class="sub">Lab-side processing after the request arrives.</p>
-<div class="flow">
-<div class="step"><div class="n">1</div><div class="b"><b>Receive &amp; validate</b><span>Check request, artifacts and device completeness; raise clarification if missing.</span></div></div>
-<div class="step"><div class="n">2</div><div class="b"><b>Map to procedures</b><span>Job sheet → repository procedures (description, test requirement, method, case study).</span></div></div>
-<div class="step"><div class="n">3</div><div class="b"><b>Route to tool track</b><span>Hardware · Firmware · Communication · Side-channel &amp; crypto. Automated runs spawn VMs or call partner tools by API; hardware probing is manual.</span></div></div>
-<div class="step"><div class="n">4</div><div class="b"><b>Execute &amp; collect evidence</b><span>Logs, dumps, SBOM, PCAP analysis, captures per procedure ID.</span></div></div>
-<div class="step"><div class="n">5</div><div class="b"><b>Review &amp; report</b><span>Lab review, consolidated report with severity and recommendations.</span></div></div>
-<div class="step"><div class="n">6</div><div class="b"><b>Return to Bangalore</b><span>Status updates and final deliverables pushed to the WebPortal; device returned.</span></div></div>
-</div>
-<p class="sub" style="margin-top:6px">Proposed status lifecycle:</p>
-<div class="pipe"><span class="st">Draft</span><span class="st">Submitted</span><span class="st">Under Validation</span><span class="st">Clarification Needed</span><span class="st">Testing In Progress</span><span class="st">Report Review</span><span class="st">Completed</span><span class="st">Closed</span></div>
-</section>
+<div class="pane" id="ar"><span class="tag">● Test Areas</span><h2>What gets <em>tested</em></h2><p class="lead">Your device is examined across four areas. Applicable tests depend on the capabilities you declare.</p>
+<div class="g">
+<div class="card top" style="--c:#2f6bff"><div class="ic">🔧</div><h3>Hardware Security</h3><ul><li>Board reconnaissance and exposed entry points</li><li>Debug ports: JTAG, SWD, UART</li><li>Peripheral buses: UART, SPI, I²C, USB, RS232/485</li><li>Firmware extraction from flash and ports</li><li>Hardware bill of materials</li></ul></div>
+<div class="card top" style="--c:#10a56b"><div class="ic">🛡️</div><h3>Firmware Security</h3><ul><li>Static and dynamic analysis, emulation</li><li>Secure boot and secure update checks</li><li>SBOM and third-party library CVEs</li><li>Binary-level reverse engineering</li><li>Hardening checks</li></ul></div>
+<div class="card top" style="--c:#8b5cf6"><div class="ic">📡</div><h3>Communication Security</h3><ul><li>Ethernet, Wi-Fi, Bluetooth, Zigbee, LoRa, NB-IoT, cellular</li><li>Application protocols (CoAP, MQTT, domain-specific)</li><li>MUD profile verification</li><li>PCAP analysis and AI-based anomaly detection</li></ul></div>
+<div class="card top" style="--c:#f97316"><div class="ic">🔐</div><h3>Side-channel &amp; Crypto</h3><ul><li>EM, power and timing analysis</li><li>Formal verification of crypto implementations</li><li>Privacy-preserving technique evaluation</li></ul></div></div>
+<div class="note">Hardware probing tests need the physical device and are performed manually. Many firmware and communication tests are automated.</div></div>
 
-<section id="tools"><h2>5. Tool Tracks &amp; Status (from event slides)</h2><p class="sub">Status as presented in the session; confirm figures before circulating.</p>
-<div class="tw"><table>
-<tr><th>Track</th><th>Tool / Capability</th><th>Agency</th><th>Status</th></tr>
-<tr><td>Hardware</td><td>UHPSA – universal protocol analyser: UART/RS232/422/485, SPI, I²C, JTAG, SWD, CAN, LIN (sniffing, baud detect, pin ID, firmware dump)</td><td>C-DAC HYD</td><td><span class="st ok">Built</span></td></tr>
-<tr><td>Hardware</td><td>USBIntercept-X – FPGA-based USB sniffer, protocol decode, report generation</td><td>C-DAC HYD</td><td><span class="st ok">Presented</span></td></tr>
-<tr><td>Firmware</td><td>Static analysis – CVE template matching on firmware; trialled on a Wi-Fi router. Next: API for sandbox integration</td><td>IIT Madras</td><td><span class="st ok">Completed</span></td></tr>
-<tr><td>Firmware</td><td>Dynamic analysis – runtime behaviour; patent filed. Next: packaging, peer-reviewed publication</td><td>IIT Madras</td><td><span class="st ok">Completed</span></td></tr>
-<tr><td>Firmware</td><td>Reverse engineering, threat modelling &amp; detection</td><td>IIT Bombay</td><td><span class="st wip">In progress</span></td></tr>
-<tr><td>Crypto</td><td>Formal verification software tool (ProVerif, CryptoVerif, Frama-C)</td><td>SETS Chennai</td><td><span class="st wip">90%</span></td></tr>
-<tr><td>Crypto</td><td>Unified formal verification framework (MQTT, TLS1.3, AES, ChaCha20, Poly1305…)</td><td>SETS Chennai</td><td><span class="st wip">50%</span></td></tr>
-<tr><td>Privacy</td><td>Privacy analysis framework (PIA, anonymisation validation)</td><td>SETS Chennai</td><td><span class="st no">20%</span></td></tr>
-<tr><td>Comm.</td><td>MUD profile verification, provisioning lifecycle, cellular IoT validation</td><td>Amrita Kollam</td><td><span class="st wip">In progress</span></td></tr>
-<tr><td>Comm.</td><td>IPv6 testing; AI/ML anomaly detection on PCAPs</td><td>SETS / C-DAC</td><td><span class="st wip">Planned</span></td></tr>
-<tr><td>Side-channel</td><td>EM, timing, power analysis algorithms (existing scopes/probes)</td><td>IIT Madras</td><td><span class="st wip">In progress</span></td></tr>
-</table></div></section>
+<div class="pane" id="dm"><span class="tag">● Domains &amp; Standards</span><h2>Supported <em>device types</em></h2><p class="lead">Choose your device class when raising a request. Procedures map to these standards.</p>
+<div class="g">
+<div class="card top" style="--c:#10a56b"><div class="ic">📱</div><h3>Consumer IoT</h3><p>Smart appliances, gadgets, utilities.</p><div class="lab">STANDARDS</div><ul><li>ETSI EN 303 645</li><li>NISTIR 8425</li><li>OWASP ISVS</li><li>STQC essential requirements</li></ul></div>
+<div class="card top" style="--c:#2f6bff"><div class="ic">🚗</div><h3>Automotive Electronics</h3><p>ECUs, TCUs, in-vehicle systems, V2X.</p><div class="lab">STANDARDS &amp; PROTOCOLS</div><ul><li>AIS 189/190, ISO/SAE 21434</li><li>CAN, LIN, FlexRay, Auto-Ethernet</li><li>UDS, OBD2, XCP</li></ul></div>
+<div class="card top" style="--c:#8b5cf6"><div class="ic">🏭</div><h3>Industrial Control</h3><p>PLCs, sensors, actuators, SCADA, HMI, RTU, IED.</p><div class="lab">STANDARDS &amp; PROTOCOLS</div><ul><li>IEC 62443 (incl. 4-2 component level)</li><li>Profinet, Modbus, OPC UA, DLMS, EtherCAT</li></ul></div>
+<div class="card top" style="--c:#f97316"><div class="ic">🩺</div><h3>Medical Devices</h3><p>Consumer medical and hospital grade.</p><div class="lab">STANDARDS &amp; PROTOCOLS</div><ul><li>IEC 60601-4-5</li><li>HL7, DICOM, FHIR</li></ul></div></div></div>
 
-<section id="dev"><h2>6. Analysis Devices (cleaned from slides)</h2><p class="sub">Interface readiness: green completed · amber partial · red not started.</p>
+<div class="pane" id="tl"><span class="tag">● Tools</span><h2>Tools &amp; <em>availability</em></h2><p class="lead">Status as presented at IoT Sandbox 2026. Availability for your device type is confirmed at request time.</p>
+<div class="tw"><table><tr><th>Area</th><th>Tool / Capability</th><th>Built by</th><th>Status</th></tr>
+<tr><td>Hardware</td><td>UHPSA – UART/RS232/422/485, SPI, I²C, JTAG, SWD, CAN, LIN analyser</td><td>C-DAC</td><td><span class="st ok">Available</span></td></tr>
+<tr><td>Hardware</td><td>USBIntercept-X – FPGA USB sniffer and report generation</td><td>C-DAC</td><td><span class="st ok">Available</span></td></tr>
+<tr><td>Firmware</td><td>Static analysis – CVE template matching</td><td>IIT Madras</td><td><span class="st ok">Available</span></td></tr>
+<tr><td>Firmware</td><td>Dynamic analysis – runtime behaviour</td><td>IIT Madras</td><td><span class="st ok">Available</span></td></tr>
+<tr><td>Firmware</td><td>Reverse engineering, threat modelling</td><td>IIT Bombay</td><td><span class="st wip">In progress</span></td></tr>
+<tr><td>Crypto</td><td>Formal verification (ProVerif, CryptoVerif, Frama-C)</td><td>SETS Chennai</td><td><span class="st wip">In progress</span></td></tr>
+<tr><td>Privacy</td><td>Privacy impact analysis framework</td><td>SETS Chennai</td><td><span class="st no">Early stage</span></td></tr>
+<tr><td>Comm.</td><td>MUD verification, provisioning, cellular IoT</td><td>Amrita Kollam</td><td><span class="st wip">In progress</span></td></tr></table></div>
 <div class="two">
-<div class="card"><div class="lane">Embedded Protocols Security Analysis Device</div>
-<div class="dev"><div class="box">Host PC</div><span class="arr">⇄</span><div class="box core">H/W Security<br>Analysis Device</div>
-<div class="ifs"><span class="i ok">UART</span><span class="i ok">SPI</span><span class="i ok">I2C</span><span class="i ok">RS232</span><span class="i ok">RS485</span><span class="i wip">JTAG</span><span class="i wip">SWD</span><span class="i no">CAN</span><span class="i no">USB</span></div>
-<span class="arr">⇄</span><div class="box tgt">Target Device</div></div>
-<p class="sub" style="margin-top:10px">Low-end embedded (Cortex-M, bare metal). Outcomes: pin identification, passive attack, active attack.</p></div>
-<div class="card"><div class="lane">Communication Security Analysis Device</div>
-<div class="dev"><div class="box">Host PC</div><span class="arr">⇄</span><div class="box core">Comm. Security<br>Analysis Device</div>
-<div class="ifs"><span class="i ok">Ethernet</span><span class="i ok">Wi-Fi</span><span class="i wip">Bluetooth</span><span class="i no">Zigbee</span><span class="i no">LoRa</span></div>
-<span class="arr">⇄</span><div class="box tgt">Target Device</div></div>
-<p class="sub" style="margin-top:10px">High-end embedded (Cortex-A, embedded Linux). Outcomes: passive attack, active attack.</p></div>
-</div></section>
+<div class="card"><h3>Embedded Protocols Analysis Device</h3><p>Low-end embedded (Cortex-M, bare metal)</p><div class="dev"><div class="bx">Host PC</div>⇄<div class="bx c">H/W Security<br>Analysis Device</div><div class="ifs"><i class="ok">UART</i><i class="ok">SPI</i><i class="ok">I2C</i><i class="ok">RS232</i><i class="ok">RS485</i><i class="wip" style="color:#1b1200">JTAG</i><i class="wip" style="color:#1b1200">SWD</i><i class="no">CAN</i><i class="no">USB</i></div>⇄<div class="bx t">Your Device</div></div></div>
+<div class="card"><h3>Communication Analysis Device</h3><p>High-end embedded (Cortex-A, embedded Linux)</p><div class="dev"><div class="bx">Host PC</div>⇄<div class="bx c">Comm. Security<br>Analysis Device</div><div class="ifs"><i class="ok">Ethernet</i><i class="ok">Wi-Fi</i><i class="wip" style="color:#1b1200">Bluetooth</i><i class="no">Zigbee</i><i class="no">LoRa</i></div>⇄<div class="bx t">Your Device</div></div></div></div></div>
 
-<section id="roles"><h2>7. Stakeholders on the Portal</h2>
-<div class="grid">
-<div class="card"><h3>Product manufacturer / User agency</h3><ul><li>Submit devices, view reports</li></ul></div>
-<div class="card"><h3>Testing lab</h3><ul><li>Empanelled labs run job sheets using sandbox procedures</li></ul></div>
-<div class="card"><h3>R&amp;D / Academic</h3><ul><li>Contribute procedures, tools, methodologies</li></ul></div>
-<div class="card"><h3>Certification body</h3><ul><li>BIS, STQC, CERT-In, NCIIPC can log in to view results</li></ul></div>
+<div class="pane" id="pr"><span class="tag">● What to Prepare</span><h2>Before you <em>place a request</em></h2><p class="lead">Keep these ready so testing can start without delays.</p>
+<div class="chk">
+<div><b>1</b><p style="margin:0"><strong>Device details</strong><span>Domain, model, interfaces and protocols, OS type (bare metal, RTOS, embedded Linux), intended usage.</span></p></div>
+<div><b>2</b><p style="margin:0"><strong>Target standard</strong><span>The standard you want to check against, such as ETSI EN 303 645 or IEC 62443.</span></p></div>
+<div><b>3</b><p style="margin:0"><strong>Questionnaire answers</strong><span>Your answers decide which security requirements and procedures apply to the device.</span></p></div>
+<div><b>4</b><p style="margin:0"><strong>Soft artifacts</strong><span>Firmware image, design and architecture documents, schematics, sample captures where relevant.</span></p></div>
+<div><b>5</b><p style="margin:0"><strong>Physical device</strong><span>Units and accessories (cables, adapters, power) for hardware tests. Debug access details if provided.</span></p></div></div>
+<div class="note">Tip: choose only the test areas you need. You can run security, functionality, or both.</div></div>
+
+<div class="pane" id="rp"><span class="tag">● Report &amp; Status</span><h2>What you <em>receive</em></h2><p class="lead">Track progress on your dashboard and download one consolidated report.</p>
+<div class="g">
+<div class="card top"><div class="ic">📄</div><h3>Security assessment report</h3><ul><li>Findings per test area</li><li>Severity and evidence</li><li>Recommendations to fix</li></ul></div>
+<div class="card top"><div class="ic">📊</div><h3>Procedure-wise results</h3><ul><li>Pass or fail per procedure ID</li><li>Mapped to your chosen standard</li></ul></div>
+<div class="card top"><div class="ic">🔎</div><h3>Pre-compliance outcome</h3><ul><li>Readiness for formal certification</li><li>Gaps to close first</li></ul></div></div>
+<h3 style="margin:26px 0 0">Request statuses you will see</h3>
+<div class="pipe"><span>Draft</span><span>Submitted</span><span>Under Validation</span><span>Clarification Needed</span><span>Testing In Progress</span><span>Report Review</span><span>Completed</span></div></div>
+
+<div class="pane" id="fq"><span class="tag">● FAQs</span><h2>Security Sandbox <em>questions</em></h2>
+<details open><summary>Is this the same as formal certification?</summary><p>No. It is a pre-compliance check that gives you a level of assurance before certification, which is longer and costlier.</p></details>
+<details><summary>Can I choose which tests to run?</summary><p>Yes. Applicable tests come from your declared capabilities, and you can pick and choose test areas.</p></details>
+<details><summary>Do I need to ship the device?</summary><p>Hardware tests need the physical device. Firmware and communication tests may work with artifacts alone.</p></details>
+<details><summary>Which standards are supported?</summary><p>Procedures are standard-agnostic and map to ETSI, NIST, OWASP, STQC, AIS, ISO/SAE, IEC 62443 and IEC 60601-4-5.</p></details>
+<details><summary>Is my firmware kept confidential?</summary><p>Please confirm the confidentiality terms with the team before submitting sensitive artifacts.</p></details></div>
 </div>
-<p class="sub" style="margin-top:12px">Tool deployment: loosely coupled (partner tools via exposed API) or physical set-up inside the sandbox in Bangalore. Related scheme: Bharat Cyber Trust Mark (4 grades, 2 scores, QR-linked repository).</p></section>
 
-<section id="open"><h2>8. Open Points for Hyderabad Discussion</h2>
-<div class="card"><ul>
-<li>API contract for request submission, status updates and report return</li>
-<li>Mandatory device details, firmware and documents per domain</li>
-<li>Which tests are automated vs manual; physical device logistics</li>
-<li>Status transitions and report format / deliverables</li>
-<li>Roadmap per tool for portal integration (static, dynamic, formal verification APIs)</li>
-</ul></div></section>
-</main>
-<footer>Draft design · based on IoT Sandbox 2026 session</footer>
+<div class="cta"><div class="w"><div><h3>Ready to test your device?</h3><p>Raise a Security Sandbox request from your dashboard.</p></div><a class="btn o" href="#">Request Security Testing →</a></div></div>
+<footer><div class="w">© 2026 C-DAC Bangalore. All rights reserved.</div></footer>
+<script>
+var b=document.querySelectorAll('#tb button');
+function go(t){b.forEach(function(x){x.classList.toggle('on',x.dataset.t===t)});document.querySelectorAll('.pane').forEach(function(p){p.classList.toggle('on',p.id===t)})}
+b.forEach(function(x){x.addEventListener('click',function(){go(x.dataset.t)})});
+</script>
 </body></html>
